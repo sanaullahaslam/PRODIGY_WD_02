@@ -1,11 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>profigy</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stopwatch</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.stopwatch {
+    text-align: center;
+}
+
+.time {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+</style>
 </head>
 <body>
-    
+
+<div class="stopwatch">
+    <div class="time" id="display">00:00:00</div>
+    <div class="buttons">
+        <button onclick="startStop()">Start</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+</div>
+
+<script>
+let timer;
+let hours = 0;
+let minutes = 0;
+let seconds = 0;
+
+function startStop() {
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    } else {
+        timer = setInterval(incrementTimer, 1000);
+    }
+}
+
+function incrementTimer() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+    displayTime();
+}
+
+function displayTime() {
+    const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    document.getElementById('display').innerText = formattedTime;
+}
+
+function reset() {
+    clearInterval(timer);
+    timer = null;
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+    displayTime();
+}
+
+function pad(num) {
+    return num < 10 ? '0' + num : num;
+}
+</script>
+
 </body>
 </html>
